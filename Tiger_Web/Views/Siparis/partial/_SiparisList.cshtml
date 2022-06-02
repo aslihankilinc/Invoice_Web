@@ -1,0 +1,39 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Functions
+@using Tiger_Web.Models
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var fatList = dm.Siparis
+          .AsEnumerable()
+          .Where(s => (s.Kod+s.Cari.Unvan).Contains(Model.Key))
+          .AsEnumerable()
+          .Select(s => new
+          {
+              s.No,
+              s.Kod,
+              SiparisTarihi = s.SiparisTarihi.ToShortDate(),
+              Cari = s.Cari.Kod + "-" + s.Cari.Unvan
+          }).ToList();
+}
+@(Html.Kendo().Grid(fatList)
+                    .Name("gdList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(s => s.No).Visible(false);
+                        cl.Bound(s => s.Kod).Title("Sipariş Kodu").Filterable(true);
+                        cl.Bound(s => s.Cari).Title("Cari No").Filterable(true);
+                        cl.Bound(s => s.SiparisTarihi).Title("Sipariş Tarihi").Filterable(true);
+                        cl.Template(s => s.No).Width(130).ClientTemplate(@"
+                          <div class='btn-group btn-group-xs'>
+                              <button type='button' onclick='fnEdit(#:No#)' class='btn btn-primary'>
+                                  <i class='glyphicon glyphicon-pencil'></i>Düzenle
+                              </button>
+                              <button type='button' onclick='fnDelete(#:No#)' class='btn btn-danger'>
+                                  <i class='glyphicon glyphicon-trash'></i>Sil
+                              </button>
+                          </div>
+                      ");
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+
+)

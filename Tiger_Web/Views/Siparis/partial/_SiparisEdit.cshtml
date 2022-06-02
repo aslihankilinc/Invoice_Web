@@ -1,0 +1,84 @@
+﻿
+@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model Siparis
+@{
+    DataModel dm = new DataModel();
+    var uList = dm.Cari.Select(u => new { No = u.No, Ad = u.Unvan }).ToList();
+
+    if (Model.No == 0)
+    {
+        Model.SiparisTarihi = DateTime.Now;
+        Model.SiparisDetay = dm.SiparisDetay.Where(q => q.KullaniciNo == Model.KullaniciNo && q.SiparisNo == null).ToList();
+        Model.CariNo = 1;
+    }
+}
+@using (Ajax.BeginForm("SiparisEdit", "Siparis", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "fsSonuc",
+    OnFailure = "fsHata()"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    <div class="container">
+        <div class="row">
+            @if(Model.No!=0)
+            {
+                <h5>@Model.Kod</h5>
+            }
+        </div>        
+            <div class="row">
+                <table class="table">
+                    <tr>
+                        <td>Cari</td>
+                        <td>@Html.Kendo().ComboBoxFor(s => s.CariNo).BindTo(uList).DataTextField("Ad").DataValueField("No")</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tarih
+                        </td>
+                        <td>
+                            @Html.Kendo().DateTimePickerFor(s => s.SiparisTarihi).Culture("tr-TR")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" onclick="fnsDetayEdit(@Model.No,0)" class="btn btn-info btn-sm pull-right"><i class="glyphicon glyphicon-plus">Ekle</i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <div id="dvListe" style="font-size:8pt;" class="merchant-info">
+                    @Html.Partial("partial/_sDetayList", new Siparis { No = Model.No })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <button type='submit' class='btn btn-sm btn-success pull-right'>
+                    <i class='glyphicon glyphicon-floppy-saved'>Kaydet</i>
+                </button>
+            </div>
+        </div>
+}
+<script type="text/javascript">
+    function fnsDetayEdit(fNo, uNo) {
+        $("#dvsChild").load("/Siparis/GenelPartial/" + fNo + "?partial=_sDetayEdit&uNo=" + uNo);
+        $('#wsChild').data('kendoWindow').setOptions({ width: 400, height: 200 });
+        $('#wsChild').data('kendoWindow').title("Ekle").center().open();
+    }
+    function fnsDetayDelete(uNo) {
+        $("#dvsChild").load("/Siparis/GenelPartial/" + uNo + "?partial=_sDetayDelete");
+        $('#wsChild').data('kendoWindow').setOptions({ width: 300, height: 150 });
+        $('#wsChild').data('kendoWindow').title("Sil").center().open();
+    }
+    function fnsDetayList(fNo) {
+        $("#dvsChildList").html("");
+        $("#dvsChildList").load("/Siparis/GenelPartial/" + fNo + "?partial=_sDetayList");
+    } 
+</script>
+
+

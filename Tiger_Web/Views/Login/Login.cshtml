@@ -1,0 +1,87 @@
+﻿@using Kendo.Mvc.UI
+@model Kullanici
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Content/kendo/2017.3.1018/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2017.3.1018/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2017.3.1018/kendo.dataviz.silver.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2017.3.1018/kendo.silver.min.css" rel="stylesheet" />
+
+    <script src="/Scripts/kendo/2017.3.1018/jquery.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.all.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.aspnetmvc.min.js"></script>
+    <script src="/Scripts/kendo.modernizr.custom.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.culture.tr-TR.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.messages.tr-TR.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/jszip.min.js"></script>
+    <link href="~/PageCss/LoginCss.css" rel="stylesheet" />
+    <script src="~/PageJs/LoginJs.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-5">
+                @using (Ajax.BeginForm("Giris", "Login", new AjaxOptions
+                {
+                    HttpMethod = "post",
+                    OnSuccess = "Sonuc",
+                    OnFailure = "Hata()",
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m=>m.No)
+                    <div class="main">
+                        <p class="sign" align="center">Kullanıcı Girişi</p>
+                        @Html.TextBoxFor(m => m.KullaniciAdi,  new { required = "required", placeholder = "Kullanıcı Adınız", @class = "form-control un"})
+                        @Html.PasswordFor(m => m.Sifre,   new { required = "required", placeholder = "Şifreniz", @class = "form-control pass" })                  
+                        <button type="submit" class="submit" align="center">Giriş</button>
+                    </div>
+                }                
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <div id="msg" hidden>
+        @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Title("Sayfa Uyarısı")
+        .Content("<p>Bilgilerinizi Kontrol Ediniz<p>")
+        .Width(400)
+        .Height(150)
+        .Modal(true)        
+        )
+    </div>
+    <script>
+        function Sonuc(result) {
+            if (result.Sonuc == true) {
+                window.open("/Fatura/Fatura", "_self");
+            }
+            else {
+                $('#dialog').data("kendoDialog").title("Test").open();
+            }
+        }
+        function Hata() {
+            alert("Hata");
+        }
+    </script>
+</body>
+</html>

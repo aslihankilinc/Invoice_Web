@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiger_Web", "Tiger_Web\Tiger_Web.csproj", "{228CD333-5A75-49D9-A305-3E966AB6D5A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiger_Win", "Tiger_Win\Tiger_Win.csproj", "{87687037-97D6-4799-BF24-4AB493381909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiger_Service", "Tiger_Service\Tiger_Service.csproj", "{634BC259-5AA4-444F-B63C-237012160876}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{228CD333-5A75-49D9-A305-3E966AB6D5A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228CD333-5A75-49D9-A305-3E966AB6D5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228CD333-5A75-49D9-A305-3E966AB6D5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228CD333-5A75-49D9-A305-3E966AB6D5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87687037-97D6-4799-BF24-4AB493381909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87687037-97D6-4799-BF24-4AB493381909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87687037-97D6-4799-BF24-4AB493381909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87687037-97D6-4799-BF24-4AB493381909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{634BC259-5AA4-444F-B63C-237012160876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{634BC259-5AA4-444F-B63C-237012160876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{634BC259-5AA4-444F-B63C-237012160876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{634BC259-5AA4-444F-B63C-237012160876}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

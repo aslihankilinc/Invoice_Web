@@ -1,0 +1,45 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@model Fatura
+@{
+    DataModel dm = new DataModel();
+    var list = new List<FaturaDetay>();
+
+    //list = dm.FaturaDetay.Where(f =>(Model.No==0 || f.FaturaNo == Model.No) && f.KullaniciNo == Model.KullaniciNo).ToList();
+
+    list = dm.FaturaDetay.Where(f => (Model.No == 0 && f.KullaniciNo == Sessions.Bilgi.KullaniciNo && f.FaturaNo == null) || (f.FaturaNo == Model.No)).ToList();
+
+    var uList = list
+.Select(f => new
+{
+    f.No,
+    UrunNo = f.UrunNo,
+    UrunAd = f.Urun.Ad,
+    Miktar = String.Format("{0:n2}", f.Miktar),
+    BirimFiyat = String.Format("{0:n2}", f.BirimFiyat),
+    NetTutar = String.Format("{0:n2}", (f.Miktar * f.BirimFiyat)),
+}).ToList();
+}
+@(Html.Kendo().Grid(uList)
+                    .Name("gduList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(f => f.No).Visible(false);
+                        cl.Bound(f => f.UrunAd).Title("Ürün").Filterable(true);
+                        cl.Bound(f => f.Miktar).Title("Miktar").Filterable(true).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(f => f.BirimFiyat).Title("Birim Fiyat").Filterable(true).HtmlAttributes(new {style="text-align:right;" });
+                        cl.Bound(f => f.NetTutar).Title("Net Tutar").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Template(f => f.No).Width(160).Title("İşlemler").ClientTemplate(@"
+                          <div class='btn-group btn-group-xs'>
+                              <button type='button' onclick='fnfDetayEdit(" + Model.No.ToString() + @",#:No#)' class='btn btn-primary'>
+                                  <i class='glyphicon glyphicon-pencil'></i>Düzenle
+                              </button>
+                              <button type='button' onclick='fnfDetayDelete(#:No#)' class='btn btn-danger'>
+                                  <i class='glyphicon glyphicon-trash'></i>Sil
+                              </button>
+                          </div>
+                      ");
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+
+)
+

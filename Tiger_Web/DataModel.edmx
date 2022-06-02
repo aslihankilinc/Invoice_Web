@@ -1,0 +1,992 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TigerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Birim">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Cari">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kod" Type="varchar" MaxLength="50" />
+          <Property Name="Unvan" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Fatura">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FisNumarasi" Type="varchar" MaxLength="50" />
+          <Property Name="FaturaTarihi" Type="datetime" />
+          <Property Name="CariNo" Type="int" />
+          <Property Name="NetTutar" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="ToplamKdvTutari" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="ToplamTutar" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="Fatura_Odeme">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FaturaNo" Type="bigint" Nullable="false" />
+          <Property Name="OdemeNo" Type="int" Nullable="false" />
+          <Property Name="OdenenTutar" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="KalanTutar" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FaturaDetay">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FaturaNo" Type="bigint" />
+          <Property Name="UrunNo" Type="bigint" />
+          <Property Name="Miktar" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="BirimFiyat" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="int" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="AktifMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="Odeme">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CariNo" Type="int" Nullable="false" />
+          <Property Name="Tutar" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="KullaniciNo" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Siparis">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kod" Type="nvarchar" MaxLength="30" />
+          <Property Name="CariNo" Type="int" />
+          <Property Name="KullaniciNo" Type="int" />
+          <Property Name="SiparisTarihi" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="Siparis_Fatura">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FaturaNo" Type="bigint" Nullable="false" />
+          <Property Name="SiparisNo" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiparisDetay">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiparisNo" Type="bigint" />
+          <Property Name="UrunNo" Type="bigint" Nullable="false" />
+          <Property Name="Miktar" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="BirimFiyat" Type="decimal" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="KullaniciNo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Kdv" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BirimNo" Type="int" />
+        </EntityType>
+        <Association Name="FK_Fatura_Cari">
+          <End Role="Cari" Type="Self.Cari" Multiplicity="0..1" />
+          <End Role="Fatura" Type="Self.Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="Fatura" Type="Self.Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Odeme_Fatura">
+          <End Role="Fatura" Type="Self.Fatura" Multiplicity="1" />
+          <End Role="Fatura_Odeme" Type="Self.Fatura_Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura_Odeme">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Odeme_Odeme">
+          <End Role="Odeme" Type="Self.Odeme" Multiplicity="1" />
+          <End Role="Fatura_Odeme" Type="Self.Fatura_Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Odeme">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura_Odeme">
+              <PropertyRef Name="OdemeNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Fatura">
+          <End Role="Fatura" Type="Self.Fatura" Multiplicity="0..1" />
+          <End Role="FaturaDetay" Type="Self.FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="FaturaDetay" Type="Self.FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="0..1" />
+          <End Role="FaturaDetay" Type="Self.FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="UrunNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odeme_Cari">
+          <End Role="Cari" Type="Self.Cari" Multiplicity="1" />
+          <End Role="Odeme" Type="Self.Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Odeme">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odeme_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="Odeme" Type="Self.Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Odeme">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_Cari">
+          <End Role="Cari" Type="Self.Cari" Multiplicity="0..1" />
+          <End Role="Siparis" Type="Self.Siparis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="0..1" />
+          <End Role="Siparis" Type="Self.Siparis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_SiparisDetay">
+          <End Role="Siparis" Type="Self.Siparis" Multiplicity="0..1" />
+          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparis">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="SiparisNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisDetay_Kullanici">
+          <End Role="Kullanici" Type="Self.Kullanici" Multiplicity="1" />
+          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisDetay_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="SiparisDetay" Type="Self.SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="UrunNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSiparis_Fatura_Fatura">
+          <End Role="Fatura" Type="Self.Fatura" Multiplicity="1" />
+          <End Role="Siparis_Fatura" Type="Self.Siparis_Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis_Fatura">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSiparis_Fatura_Siparis">
+          <End Role="Siparis" Type="Self.Siparis" Multiplicity="1" />
+          <End Role="Siparis_Fatura" Type="Self.Siparis_Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparis">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis_Fatura">
+              <PropertyRef Name="SiparisNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urun_Birim">
+          <End Role="Birim" Type="Self.Birim" Multiplicity="0..1" />
+          <End Role="Urun" Type="Self.Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Birim">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="BirimNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TigerModelStoreContainer">
+          <EntitySet Name="Birim" EntityType="Self.Birim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cari" EntityType="Self.Cari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fatura" EntityType="Self.Fatura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fatura_Odeme" EntityType="Self.Fatura_Odeme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FaturaDetay" EntityType="Self.FaturaDetay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanici" EntityType="Self.Kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Odeme" EntityType="Self.Odeme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siparis" EntityType="Self.Siparis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siparis_Fatura" EntityType="Self.Siparis_Fatura" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiparisDetay" EntityType="Self.SiparisDetay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Fatura_Cari" Association="Self.FK_Fatura_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Fatura" EntitySet="Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Kullanici" Association="Self.FK_Fatura_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Fatura" EntitySet="Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Odeme_Fatura" Association="Self.FK_Fatura_Odeme_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="Fatura_Odeme" EntitySet="Fatura_Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Odeme_Odeme" Association="Self.FK_Fatura_Odeme_Odeme">
+            <End Role="Odeme" EntitySet="Odeme" />
+            <End Role="Fatura_Odeme" EntitySet="Fatura_Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Fatura" Association="Self.FK_FaturaDetay_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Kullanici" Association="Self.FK_FaturaDetay_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Urun" Association="Self.FK_FaturaDetay_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odeme_Cari" Association="Self.FK_Odeme_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Odeme" EntitySet="Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odeme_Kullanici" Association="Self.FK_Odeme_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Odeme" EntitySet="Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_Cari" Association="Self.FK_Siparis_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Siparis" EntitySet="Siparis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_Kullanici" Association="Self.FK_Siparis_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Siparis" EntitySet="Siparis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_SiparisDetay" Association="Self.FK_Siparis_SiparisDetay">
+            <End Role="Siparis" EntitySet="Siparis" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisDetay_Kullanici" Association="Self.FK_SiparisDetay_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisDetay_Urun" Association="Self.FK_SiparisDetay_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSiparis_Fatura_Fatura" Association="Self.FK_tblSiparis_Fatura_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="Siparis_Fatura" EntitySet="Siparis_Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSiparis_Fatura_Siparis" Association="Self.FK_tblSiparis_Fatura_Siparis">
+            <End Role="Siparis" EntitySet="Siparis" />
+            <End Role="Siparis_Fatura" EntitySet="Siparis_Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urun_Birim" Association="Self.FK_Urun_Birim">
+            <End Role="Birim" EntitySet="Birim" />
+            <End Role="Urun" EntitySet="Urun" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TigerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DataModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Birim" EntityType="TigerModel.Birim" />
+          <EntitySet Name="Cari" EntityType="TigerModel.Cari" />
+          <EntitySet Name="Fatura" EntityType="TigerModel.Fatura" />
+          <EntitySet Name="FaturaDetay" EntityType="TigerModel.FaturaDetay" />
+          <EntitySet Name="Kullanici" EntityType="TigerModel.Kullanici" />
+          <EntitySet Name="Siparis" EntityType="TigerModel.Siparis" />
+          <EntitySet Name="Siparis_Fatura" EntityType="TigerModel.Siparis_Fatura" />
+          <EntitySet Name="SiparisDetay" EntityType="TigerModel.SiparisDetay" />
+          <EntitySet Name="Urun" EntityType="TigerModel.Urun" />
+          <AssociationSet Name="FK_Urun_Birim" Association="TigerModel.FK_Urun_Birim">
+            <End Role="Birim" EntitySet="Birim" />
+            <End Role="Urun" EntitySet="Urun" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Cari" Association="TigerModel.FK_Fatura_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Fatura" EntitySet="Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_Cari" Association="TigerModel.FK_Siparis_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Siparis" EntitySet="Siparis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Kullanici" Association="TigerModel.FK_Fatura_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Fatura" EntitySet="Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Fatura" Association="TigerModel.FK_FaturaDetay_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSiparis_Fatura_Fatura" Association="TigerModel.FK_tblSiparis_Fatura_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="Siparis_Fatura" EntitySet="Siparis_Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Kullanici" Association="TigerModel.FK_FaturaDetay_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FaturaDetay_Urun" Association="TigerModel.FK_FaturaDetay_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="FaturaDetay" EntitySet="FaturaDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_Kullanici" Association="TigerModel.FK_Siparis_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Siparis" EntitySet="Siparis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisDetay_Kullanici" Association="TigerModel.FK_SiparisDetay_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparis_SiparisDetay" Association="TigerModel.FK_Siparis_SiparisDetay">
+            <End Role="Siparis" EntitySet="Siparis" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblSiparis_Fatura_Siparis" Association="TigerModel.FK_tblSiparis_Fatura_Siparis">
+            <End Role="Siparis" EntitySet="Siparis" />
+            <End Role="Siparis_Fatura" EntitySet="Siparis_Fatura" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiparisDetay_Urun" Association="TigerModel.FK_SiparisDetay_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+          </AssociationSet>
+          <EntitySet Name="Fatura_Odeme" EntityType="TigerModel.Fatura_Odeme" />
+          <EntitySet Name="Odeme" EntityType="TigerModel.Odeme" />
+          <AssociationSet Name="FK_Odeme_Cari" Association="TigerModel.FK_Odeme_Cari">
+            <End Role="Cari" EntitySet="Cari" />
+            <End Role="Odeme" EntitySet="Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Odeme_Fatura" Association="TigerModel.FK_Fatura_Odeme_Fatura">
+            <End Role="Fatura" EntitySet="Fatura" />
+            <End Role="Fatura_Odeme" EntitySet="Fatura_Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fatura_Odeme_Odeme" Association="TigerModel.FK_Fatura_Odeme_Odeme">
+            <End Role="Odeme" EntitySet="Odeme" />
+            <End Role="Fatura_Odeme" EntitySet="Fatura_Odeme" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odeme_Kullanici" Association="TigerModel.FK_Odeme_Kullanici">
+            <End Role="Kullanici" EntitySet="Kullanici" />
+            <End Role="Odeme" EntitySet="Odeme" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Birim">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Urun" Relationship="TigerModel.FK_Urun_Birim" FromRole="Birim" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="Cari">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Unvan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fatura" Relationship="TigerModel.FK_Fatura_Cari" FromRole="Cari" ToRole="Fatura" />
+          <NavigationProperty Name="Siparis" Relationship="TigerModel.FK_Siparis_Cari" FromRole="Cari" ToRole="Siparis" />
+          <NavigationProperty Name="Odeme" Relationship="TigerModel.FK_Odeme_Cari" FromRole="Cari" ToRole="Odeme" />
+        </EntityType>
+        <EntityType Name="Fatura">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FisNumarasi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FaturaTarihi" Type="DateTime" Precision="3" />
+          <Property Name="CariNo" Type="Int32" />
+          <Property Name="NetTutar" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="ToplamKdvTutari" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="ToplamTutar" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <NavigationProperty Name="Cari" Relationship="TigerModel.FK_Fatura_Cari" FromRole="Fatura" ToRole="Cari" />
+          <NavigationProperty Name="Kullanici" Relationship="TigerModel.FK_Fatura_Kullanici" FromRole="Fatura" ToRole="Kullanici" />
+          <NavigationProperty Name="FaturaDetay" Relationship="TigerModel.FK_FaturaDetay_Fatura" FromRole="Fatura" ToRole="FaturaDetay" />
+          <NavigationProperty Name="Siparis_Fatura" Relationship="TigerModel.FK_tblSiparis_Fatura_Fatura" FromRole="Fatura" ToRole="Siparis_Fatura" />
+          <NavigationProperty Name="Fatura_Odeme" Relationship="TigerModel.FK_Fatura_Odeme_Fatura" FromRole="Fatura" ToRole="Fatura_Odeme" />
+        </EntityType>
+        <EntityType Name="FaturaDetay">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FaturaNo" Type="Int64" />
+          <Property Name="UrunNo" Type="Int64" />
+          <Property Name="Miktar" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="BirimFiyat" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="Int32" />
+          <NavigationProperty Name="Fatura" Relationship="TigerModel.FK_FaturaDetay_Fatura" FromRole="FaturaDetay" ToRole="Fatura" />
+          <NavigationProperty Name="Kullanici" Relationship="TigerModel.FK_FaturaDetay_Kullanici" FromRole="FaturaDetay" ToRole="Kullanici" />
+          <NavigationProperty Name="Urun" Relationship="TigerModel.FK_FaturaDetay_Urun" FromRole="FaturaDetay" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="Kullanici">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <NavigationProperty Name="Fatura" Relationship="TigerModel.FK_Fatura_Kullanici" FromRole="Kullanici" ToRole="Fatura" />
+          <NavigationProperty Name="FaturaDetay" Relationship="TigerModel.FK_FaturaDetay_Kullanici" FromRole="Kullanici" ToRole="FaturaDetay" />
+          <NavigationProperty Name="Siparis" Relationship="TigerModel.FK_Siparis_Kullanici" FromRole="Kullanici" ToRole="Siparis" />
+          <NavigationProperty Name="SiparisDetay" Relationship="TigerModel.FK_SiparisDetay_Kullanici" FromRole="Kullanici" ToRole="SiparisDetay" />
+          <NavigationProperty Name="Odeme" Relationship="TigerModel.FK_Odeme_Kullanici" FromRole="Kullanici" ToRole="Odeme" />
+        </EntityType>
+        <EntityType Name="Siparis">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kod" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CariNo" Type="Int32" />
+          <Property Name="KullaniciNo" Type="Int32" />
+          <Property Name="SiparisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <NavigationProperty Name="Cari" Relationship="TigerModel.FK_Siparis_Cari" FromRole="Siparis" ToRole="Cari" />
+          <NavigationProperty Name="Kullanici" Relationship="TigerModel.FK_Siparis_Kullanici" FromRole="Siparis" ToRole="Kullanici" />
+          <NavigationProperty Name="SiparisDetay" Relationship="TigerModel.FK_Siparis_SiparisDetay" FromRole="Siparis" ToRole="SiparisDetay" />
+          <NavigationProperty Name="Siparis_Fatura" Relationship="TigerModel.FK_tblSiparis_Fatura_Siparis" FromRole="Siparis" ToRole="Siparis_Fatura" />
+        </EntityType>
+        <EntityType Name="Siparis_Fatura">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FaturaNo" Type="Int64" Nullable="false" />
+          <Property Name="SiparisNo" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Fatura" Relationship="TigerModel.FK_tblSiparis_Fatura_Fatura" FromRole="Siparis_Fatura" ToRole="Fatura" />
+          <NavigationProperty Name="Siparis" Relationship="TigerModel.FK_tblSiparis_Fatura_Siparis" FromRole="Siparis_Fatura" ToRole="Siparis" />
+        </EntityType>
+        <EntityType Name="SiparisDetay">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiparisNo" Type="Int64" />
+          <Property Name="UrunNo" Type="Int64" Nullable="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="BirimFiyat" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kullanici" Relationship="TigerModel.FK_SiparisDetay_Kullanici" FromRole="SiparisDetay" ToRole="Kullanici" />
+          <NavigationProperty Name="Siparis" Relationship="TigerModel.FK_Siparis_SiparisDetay" FromRole="SiparisDetay" ToRole="Siparis" />
+          <NavigationProperty Name="Urun" Relationship="TigerModel.FK_SiparisDetay_Urun" FromRole="SiparisDetay" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Kdv" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BirimNo" Type="Int32" />
+          <NavigationProperty Name="Birim" Relationship="TigerModel.FK_Urun_Birim" FromRole="Urun" ToRole="Birim" />
+          <NavigationProperty Name="FaturaDetay" Relationship="TigerModel.FK_FaturaDetay_Urun" FromRole="Urun" ToRole="FaturaDetay" />
+          <NavigationProperty Name="SiparisDetay" Relationship="TigerModel.FK_SiparisDetay_Urun" FromRole="Urun" ToRole="SiparisDetay" />
+        </EntityType>
+        <Association Name="FK_Urun_Birim">
+          <End Type="TigerModel.Birim" Role="Birim" Multiplicity="0..1" />
+          <End Type="TigerModel.Urun" Role="Urun" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Birim">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Urun">
+              <PropertyRef Name="BirimNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Cari">
+          <End Type="TigerModel.Cari" Role="Cari" Multiplicity="0..1" />
+          <End Type="TigerModel.Fatura" Role="Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_Cari">
+          <End Type="TigerModel.Cari" Role="Cari" Multiplicity="0..1" />
+          <End Type="TigerModel.Siparis" Role="Siparis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Kullanici">
+          <End Type="TigerModel.Kullanici" Role="Kullanici" Multiplicity="0..1" />
+          <End Type="TigerModel.Fatura" Role="Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Fatura">
+          <End Type="TigerModel.Fatura" Role="Fatura" Multiplicity="0..1" />
+          <End Type="TigerModel.FaturaDetay" Role="FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSiparis_Fatura_Fatura">
+          <End Type="TigerModel.Fatura" Role="Fatura" Multiplicity="1" />
+          <End Type="TigerModel.Siparis_Fatura" Role="Siparis_Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis_Fatura">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Kullanici">
+          <End Type="TigerModel.Kullanici" Role="Kullanici" Multiplicity="0..1" />
+          <End Type="TigerModel.FaturaDetay" Role="FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FaturaDetay_Urun">
+          <End Type="TigerModel.Urun" Role="Urun" Multiplicity="0..1" />
+          <End Type="TigerModel.FaturaDetay" Role="FaturaDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="FaturaDetay">
+              <PropertyRef Name="UrunNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_Kullanici">
+          <End Type="TigerModel.Kullanici" Role="Kullanici" Multiplicity="0..1" />
+          <End Type="TigerModel.Siparis" Role="Siparis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisDetay_Kullanici">
+          <End Type="TigerModel.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="TigerModel.SiparisDetay" Role="SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparis_SiparisDetay">
+          <End Type="TigerModel.Siparis" Role="Siparis" Multiplicity="0..1" />
+          <End Type="TigerModel.SiparisDetay" Role="SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparis">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="SiparisNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblSiparis_Fatura_Siparis">
+          <End Type="TigerModel.Siparis" Role="Siparis" Multiplicity="1" />
+          <End Type="TigerModel.Siparis_Fatura" Role="Siparis_Fatura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparis">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Siparis_Fatura">
+              <PropertyRef Name="SiparisNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SiparisDetay_Urun">
+          <End Type="TigerModel.Urun" Role="Urun" Multiplicity="1" />
+          <End Type="TigerModel.SiparisDetay" Role="SiparisDetay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="SiparisDetay">
+              <PropertyRef Name="UrunNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Fatura_Odeme">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FaturaNo" Type="Int64" Nullable="false" />
+          <Property Name="OdemeNo" Type="Int32" Nullable="false" />
+          <Property Name="OdenenTutar" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="KalanTutar" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Fatura" Relationship="TigerModel.FK_Fatura_Odeme_Fatura" FromRole="Fatura_Odeme" ToRole="Fatura" />
+          <NavigationProperty Name="Odeme" Relationship="TigerModel.FK_Fatura_Odeme_Odeme" FromRole="Fatura_Odeme" ToRole="Odeme" />
+        </EntityType>
+        <EntityType Name="Odeme">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CariNo" Type="Int32" Nullable="false" />
+          <Property Name="Tutar" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="KullaniciNo" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cari" Relationship="TigerModel.FK_Odeme_Cari" FromRole="Odeme" ToRole="Cari" />
+          <NavigationProperty Name="Fatura_Odeme" Relationship="TigerModel.FK_Fatura_Odeme_Odeme" FromRole="Odeme" ToRole="Fatura_Odeme" />
+          <NavigationProperty Name="Kullanici" Relationship="TigerModel.FK_Odeme_Kullanici" FromRole="Odeme" ToRole="Kullanici" />
+        </EntityType>
+        <Association Name="FK_Odeme_Cari">
+          <End Type="TigerModel.Cari" Role="Cari" Multiplicity="1" />
+          <End Type="TigerModel.Odeme" Role="Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cari">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Odeme">
+              <PropertyRef Name="CariNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Odeme_Fatura">
+          <End Type="TigerModel.Fatura" Role="Fatura" Multiplicity="1" />
+          <End Type="TigerModel.Fatura_Odeme" Role="Fatura_Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fatura">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura_Odeme">
+              <PropertyRef Name="FaturaNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fatura_Odeme_Odeme">
+          <End Type="TigerModel.Odeme" Role="Odeme" Multiplicity="1" />
+          <End Type="TigerModel.Fatura_Odeme" Role="Fatura_Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Odeme">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Fatura_Odeme">
+              <PropertyRef Name="OdemeNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odeme_Kullanici">
+          <End Type="TigerModel.Kullanici" Role="Kullanici" Multiplicity="1" />
+          <End Type="TigerModel.Odeme" Role="Odeme" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanici">
+              <PropertyRef Name="No" />
+            </Principal>
+            <Dependent Role="Odeme">
+              <PropertyRef Name="KullaniciNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TigerModelStoreContainer" CdmEntityContainer="DataModel">
+          <EntitySetMapping Name="Birim">
+            <EntityTypeMapping TypeName="TigerModel.Birim">
+              <MappingFragment StoreEntitySet="Birim">
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cari">
+            <EntityTypeMapping TypeName="TigerModel.Cari">
+              <MappingFragment StoreEntitySet="Cari">
+                <ScalarProperty Name="Unvan" ColumnName="Unvan" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fatura">
+            <EntityTypeMapping TypeName="TigerModel.Fatura">
+              <MappingFragment StoreEntitySet="Fatura">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="ToplamTutar" ColumnName="ToplamTutar" />
+                <ScalarProperty Name="ToplamKdvTutari" ColumnName="ToplamKdvTutari" />
+                <ScalarProperty Name="NetTutar" ColumnName="NetTutar" />
+                <ScalarProperty Name="CariNo" ColumnName="CariNo" />
+                <ScalarProperty Name="FaturaTarihi" ColumnName="FaturaTarihi" />
+                <ScalarProperty Name="FisNumarasi" ColumnName="FisNumarasi" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FaturaDetay">
+            <EntityTypeMapping TypeName="TigerModel.FaturaDetay">
+              <MappingFragment StoreEntitySet="FaturaDetay">
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="UrunNo" ColumnName="UrunNo" />
+                <ScalarProperty Name="FaturaNo" ColumnName="FaturaNo" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kullanici">
+            <EntityTypeMapping TypeName="TigerModel.Kullanici">
+              <MappingFragment StoreEntitySet="Kullanici">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siparis">
+            <EntityTypeMapping TypeName="TigerModel.Siparis">
+              <MappingFragment StoreEntitySet="Siparis">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="SiparisTarihi" ColumnName="SiparisTarihi" />
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="CariNo" ColumnName="CariNo" />
+                <ScalarProperty Name="Kod" ColumnName="Kod" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siparis_Fatura">
+            <EntityTypeMapping TypeName="TigerModel.Siparis_Fatura">
+              <MappingFragment StoreEntitySet="Siparis_Fatura">
+                <ScalarProperty Name="SiparisNo" ColumnName="SiparisNo" />
+                <ScalarProperty Name="FaturaNo" ColumnName="FaturaNo" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiparisDetay">
+            <EntityTypeMapping TypeName="TigerModel.SiparisDetay">
+              <MappingFragment StoreEntitySet="SiparisDetay">
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="UrunNo" ColumnName="UrunNo" />
+                <ScalarProperty Name="SiparisNo" ColumnName="SiparisNo" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urun">
+            <EntityTypeMapping TypeName="TigerModel.Urun">
+              <MappingFragment StoreEntitySet="Urun">
+                <ScalarProperty Name="BirimNo" ColumnName="BirimNo" />
+                <ScalarProperty Name="Kdv" ColumnName="Kdv" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fatura_Odeme">
+            <EntityTypeMapping TypeName="TigerModel.Fatura_Odeme">
+              <MappingFragment StoreEntitySet="Fatura_Odeme">
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="KalanTutar" ColumnName="KalanTutar" />
+                <ScalarProperty Name="OdenenTutar" ColumnName="OdenenTutar" />
+                <ScalarProperty Name="OdemeNo" ColumnName="OdemeNo" />
+                <ScalarProperty Name="FaturaNo" ColumnName="FaturaNo" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Odeme">
+            <EntityTypeMapping TypeName="TigerModel.Odeme">
+              <MappingFragment StoreEntitySet="Odeme">
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="KullaniciNo" ColumnName="KullaniciNo" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="CariNo" ColumnName="CariNo" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

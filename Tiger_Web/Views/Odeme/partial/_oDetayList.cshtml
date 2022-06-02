@@ -1,0 +1,31 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Functions
+@using Tiger_Web.Models
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var odList = dm.Fatura_Odeme
+        .AsEnumerable()
+       .Where(od => od.OdemeNo==Model.Key.ToInt32())
+       .AsEnumerable()
+       .Select(od => new
+       {
+           od.No,
+           FisNumara=od.Fatura.FisNumarasi,
+           ToplamTutar = String.Format("{0:n2}", od.Fatura.ToplamTutar),
+           OdenenTutar = String.Format("{0:n2}", od.OdenenTutar),
+           KalanTutar= String.Format("{0:n2}", od.KalanTutar),       
+       }).ToList();
+}
+@(Html.Kendo().Grid(odList)
+                    .Name("godList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(od => od.No).Visible(false);
+                        cl.Bound(od => od.FisNumara).Title("Fiş Numarası").Filterable(true);
+                        cl.Bound(od => od.ToplamTutar).Title("Toplam Fatura Tutarı").Filterable(true).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(od => od.OdenenTutar).Title("Ödeme Tutarı").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(od => od.KalanTutar).Title("KalanTutar").Filterable(true).HtmlAttributes(new { style = "text-align:right;" });
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+
+)

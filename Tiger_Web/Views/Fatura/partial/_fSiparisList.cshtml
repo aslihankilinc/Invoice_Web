@@ -1,0 +1,79 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@model Siparis_Fatura
+@{
+    DataModel dm = new DataModel();
+    var sList = dm.Siparis.AsEnumerable().Where(s => s.CariNo == Model.Fatura.CariNo && s.AktifMi == true).Select(s =>
+            new
+            {
+                No = s.No,
+                Ad = s.Kod
+            }).ToList();
+
+}
+
+<script type="text/javascript">
+    function onSelect(e) {
+        fnsdList($("#SiparisNo").data('kendoComboBox').value());
+    }
+    function fnsdList(No) {
+        $("#dvsdListe").html("");
+        $("#dvsdListe").load("/Fatura/GenelPartial/" + No + "?partial=_fSiparisDetay");
+    }
+    function fsSonuc(result) {
+        if (result.Sonuc == true) {
+            fnList();
+            $('#wfChild').data('kendoWindow').close();
+        }
+        else {
+            msgAlert('Hata Mesajı', result.Cevap);
+        }
+    }
+    function fsHata() {
+        msgAlert('Hata Mesajı', 'İşleminiz Esnasında Bir Sorun Oluşmuştur');
+    }
+</script>
+@using (Ajax.BeginForm("sfCon", "Fatura", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "fsSonuc",
+    OnFailure = "fsHata()"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    @Html.Hidden("FaturaNo",Model.FaturaNo)
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>Sipariş</td>
+                    <td>
+                        @(Html.Kendo().ComboBoxFor(s => s.SiparisNo)
+                         .BindTo(sList)
+                          .HtmlAttributes(new { style = "width:300px" })
+                          .Placeholder("Sipariş Seçiniz").DataTextField("Ad").DataValueField("No")
+                          .SelectedIndex(0)
+                          .Events(e =>
+                          {
+                              e.Change("onSelect");
+                          })
+                        )
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div id="dvsdListe" style="font-size:8pt;" class="merchant-info">
+                @Html.Partial("partial/_fSiparisDetay", new sFilter { Key = "" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <button type='submit' class='btn btn-sm btn-success pull-right'>
+                <i class='glyphicon glyphicon-floppy-saved'>Kaydet</i>
+            </button>
+        </div>
+    </div>
+
+}

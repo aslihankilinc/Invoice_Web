@@ -1,0 +1,103 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+    @{
+        ViewBag.Title = "Siparis";
+        if (!(Sessions.Bilgi != null && Sessions.Bilgi.Login == true))
+        {
+            return;
+        }
+    }
+    <div class="row">
+        <table class="table">
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-info btn-sm " onclick="fnEdit(0);"><i class="glyphicon glyphicon-plus">Ekle</i></button>
+                    <button type="button" class="btn btn-warning btn-sm " onclick="fnList();"><i class="glyphicon glyphicon-refresh"> Listele</i></button>
+                </td>
+                <td style="width:300px;"><input type="text" class="k-textbox" id="txtBul" style="width:290px;" onkeydown="fnFind(event);" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="dvListe" style="font-size:8pt;" class="merchant-info">
+                        @Html.Partial("partial/_SiparisList", new sFilter { Key = "" })
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+@(Html.Kendo().Window()
+        .Name("wGenel")
+        .Title("Bilgileri")
+        .Visible(false)
+        .Scrollable(true)
+        .Animation(true)
+        .Modal(true)
+        .Height(400)
+        .Width(300)
+        .Actions(actions => actions.Close())
+        .Content(@<div id="dvGenel"></div>)
+        .Draggable().Resizable())
+@(Html.Kendo().Window()
+            .Name("wsChild")
+            .Title("Bilgileri")
+            .Visible(false)
+            .Scrollable(true)
+            .Animation(true)
+            .Modal(true)
+            .Height(400)
+            .Width(300)
+            .Actions(actions => actions.Close())
+            .Content(@<div id="dvsChild"></div>)
+            .Draggable().Resizable())
+@(Html.Kendo().Window()
+            .Name("wsChildList")
+            .Title("Bilgileri")
+            .Visible(false)
+            .Scrollable(true)
+            .Animation(true)
+            .Modal(true)
+            .Height(400)
+            .Width(300)
+            .Actions(actions => actions.Close())
+            .Content(@<div id="dvsChildList"></div>)
+            .Draggable().Resizable())
+    <script type="text/javascript">
+        function fsSonuc(result) {
+            if (result.Sonuc == true) {
+                fnList();
+                $('#wGenel').data('kendoWindow').close();
+            }
+            else {
+                msgAlert('Hata Mesajı', result.Cevap);
+            }
+        }
+        function fsHata() {
+            msgAlert('Hata Mesajı', 'İşleminiz Esnasında Bir Sorun Oluşmuştur');
+        }
+        function fnEdit(No) {
+            var title = "";
+            if (No == 0) {
+                title = "Ekle";
+            }
+            else {
+                title = "Düzenle";
+            }
+            $("#dvGenel").load("/Siparis/GenelPartial/" + No + "?partial=_SiparisEdit");
+            $('#wGenel').data('kendoWindow').setOptions({ width: 800, height: 420 });
+            $('#wGenel').data('kendoWindow').title(title).center().open();
+        }
+        function fnDelete(No) {
+            $("#dvGenel").load("/Siparis/GenelPartial/" + No + "?partial=_SiparisDelete");
+            $('#wGenel').data('kendoWindow').setOptions({ width: 300, height: 220 });
+            $('#wGenel').data('kendoWindow').title("Sil").center().open();
+        }
+        function fnList() {
+            $("#dvListe").html("");
+            $("#dvListe").load("/Siparis/GenelPartial/" + $("#txtBul").val().toString().replace(' ', '_') + "?partial=_SiparisList");
+        }
+        function fnFind(e) {
+            if (e.keyCode == 13) {
+                fnList();
+            }
+        }
+    </script>

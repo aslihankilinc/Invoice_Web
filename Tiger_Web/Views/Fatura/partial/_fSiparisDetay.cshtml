@@ -1,0 +1,26 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Functions
+@using Tiger_Web.Models
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var sdList = dm.SiparisDetay.AsEnumerable().Where(s => s.SiparisNo == Model.Key.ToInt32()).Select(s => new
+    {
+        s.No,
+        UrunAd = s.Urun.Ad,
+        Miktar = String.Format("{0:n2}", s.Miktar),
+        BirimFiyat = String.Format("{0:n2}", s.BirimFiyat),
+        NetTutar = String.Format("{0:n2}", (s.Miktar * s.BirimFiyat)),
+    });
+}
+@(Html.Kendo().Grid(sdList)
+                   .Name("gsdList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(sd => sd.No).Visible(false);
+                        cl.Bound(sd => sd.UrunAd).Title("Ürün").Filterable(true);
+                        cl.Bound(sd => sd.Miktar).Title("Miktar").Filterable(true).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(sd => sd.BirimFiyat).Title("Birim Fiyat").Filterable(true).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(sd => sd.NetTutar).Title("Net Tutar").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+)

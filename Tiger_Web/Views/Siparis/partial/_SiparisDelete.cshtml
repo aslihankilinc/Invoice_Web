@@ -1,0 +1,41 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+
+}
+@using (Ajax.BeginForm("SiparisDelete", "Siparis", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "fsSonuc",
+    OnFailure = "fsHata()"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.No)
+    <div class="container">
+        <p><b>Silme İşleminden Emin Misiniz?</b></p>
+        <br /><br />
+        <div class="pull-right">
+            <button type="submit" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-trash"></i>Evet</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function fdSonuc(result) {
+            if (result.Sonuc == true) {
+                $('#wGenel').data('kendoWindow').close();
+                fnList();
+            }
+            else {
+                msgAlert('Hata Mesajı', result.Cevap);
+            }
+        }
+        function fdHata() {
+            msgAlert('Hata Mesajı','İşleminiz Esnasında Bir Sorun Oluşmuştur');
+        }
+    </script>
+}
+
+

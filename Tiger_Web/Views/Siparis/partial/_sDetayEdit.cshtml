@@ -1,0 +1,86 @@
+﻿
+@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model SiparisDetay
+@{
+    DataModel dm = new DataModel();
+    var uList = dm.Urun.Select(u => new { u.No, u.Ad }).ToList();
+    if(Model.No==0)
+    {
+        Model.UrunNo = 1;
+    }
+}
+@using (Ajax.BeginForm("sDetayEdit", "Siparis", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "ueSonuc",
+    OnFailure = "ueHata()"
+}
+            ))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    @Html.Hidden("SiparisNo", Model.SiparisNo)
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        Ürün&nbsp;Adı&nbsp;:
+                    </td>
+                    <td>
+                        @Html.Kendo().ComboBoxFor(s => s.UrunNo).Name("UrunNo").BindTo(uList).DataTextField("Ad").DataValueField("No")
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Miktar&nbsp;:
+                    </td>
+                    <td>
+                        @(Html.Kendo().NumericTextBox<decimal>().Value(Model.Miktar)
+                                          .Name("Miktar")
+                                          .Format("n2")
+                                          .Culture("tr-TR")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Birim&nbsp;Fiyat&nbsp;:
+                    </td>
+                    <td>
+                        @(Html.Kendo().NumericTextBox<decimal>().Value(Model.BirimFiyat)
+                                          .Name("BirimFiyat")
+                                          .Format("n2")
+                                          .Culture("tr-TR")
+
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type='submit' class='btn btn-sm btn-success pull-right'>
+                            <i class='glyphicon glyphicon-floppy-saved'>Kaydet</i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function ueSonuc(result) {
+        if (result.Sonuc == true) {
+            fnsDetayList(@Model.SiparisNo)
+            $('#wsChild').data('kendoWindow').close();
+        }
+        else {
+            msgAlert('Hata Mesajı', result.Cevap)
+            }
+    }
+    function ueHata() {
+        msgAlert('Hata Mesajı','İşleminiz Esnasında Bir Sorun Oluşmuştur');
+    }
+    </script>
+
+}

@@ -1,0 +1,88 @@
+﻿
+@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model Fatura
+@{
+    DataModel dm = new DataModel();
+    var uList = dm.Cari.Select(u => new { No = u.No, Ad = u.Unvan }).ToList();
+
+    if (Model.No == 0)
+    {
+        Model.FaturaTarihi = DateTime.Now;
+        Model.FaturaDetay = dm.FaturaDetay.Where(q => q.KullaniciNo == Model.KullaniciNo && q.FaturaNo == null).ToList();
+        Model.CariNo = 1;
+    }
+}
+@using (Ajax.BeginForm("FaturaEdit", "Fatura", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "feSonuc",
+    OnFailure = "feHata()"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    <div class="container">
+        <div class="row">
+            @if (Model.No != 0)
+            {
+                <h5>@Model.FisNumarasi</h5>
+            }
+        </div> 
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>Cari</td>
+                    <td>@Html.Kendo().ComboBoxFor(s => s.CariNo).BindTo(uList).DataTextField("Ad").DataValueField("No")</td>
+                </tr>
+                <tr>
+                    <td>
+                        Tarih
+                    </td>
+                    <td>
+                        @Html.Kendo().DateTimePickerFor(s => s.FaturaTarihi).Culture("tr-TR")
+                    </td>
+                </tr>
+                <tr>
+                    @*<td>
+                        <button type="button" onclick="fnfSiparisList(@Model.No)" hidden="@Model.No==0?'hidden':''" class="btn btn-info btn-sm pull-left"><i class="glyphicon glyphicon-transfer">Sipariş</i></button>
+                    </td>*@
+                    <td colspan="2">
+                        <button type="button" onclick="fnfDetayEdit(@Model.No,0)" class="btn btn-info btn-sm pull-right"><i class="glyphicon glyphicon-plus">Ekle</i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div class="row">
+            <div id="dvListe" style="font-size:8pt;" class="merchant-info">
+                @Html.Partial("partial/_fDetayList", new Fatura { No = Model.No})
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <button type='submit' class='btn btn-sm btn-success pull-right'>
+                <i class='glyphicon glyphicon-floppy-saved'>Kaydet</i>
+            </button>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function fnfDetayEdit(fNo, uNo) {
+        $("#dvfChild").load("/Fatura/GenelPartial/" + fNo + "?partial=_fDetayEdit&uNo=" + uNo);
+        $('#wfChild').data('kendoWindow').setOptions({ width: 400, height: 200 });
+        $('#wfChild').data('kendoWindow').title("Ekle").center().open();
+    }
+    function fnfDetayDelete(uNo) {
+        $("#dvfChild").load("/Fatura/GenelPartial/" + uNo + "?partial=_fDetayDelete");
+        $('#wfChild').data('kendoWindow').setOptions({ width: 300, height: 150 });
+        $('#wfChild').data('kendoWindow').title("Sil").center().open();
+    }
+    function fnfDetayList(fNo) {
+        $("#dvfChildList").html("");
+        $("#dvfChildList").load("/Fatura/GenelPartial/" + fNo + "?partial=_fDetayList");
+    }
+  
+</script>
+

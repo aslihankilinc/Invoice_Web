@@ -1,0 +1,79 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model Odeme
+@{
+    DataModel dm = new DataModel();
+    var cList = dm.Cari.Select(s => new { No = s.No, Ad = (s.Kod + "-" + s.Unvan) });
+}
+@using (Ajax.BeginForm("OdemeEdit", "Odeme", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "ueSonuc",
+    OnFailure = "ueHata()"
+}
+            ))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    <div class="container">
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td>
+                        Cari&nbsp;:
+                    </td>
+                    <td>
+                        @Html.Kendo().ComboBoxFor(s => s.CariNo).BindTo(cList).DataTextField("Ad").DataValueField("No").SelectedIndex(@Model.No==0?0:@Model.CariNo)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tutar&nbsp;:
+                    </td>
+                    <td>
+                        @(Html.Kendo().NumericTextBox<decimal>().Value(Model.Tutar)
+                                          .Name("Tutar")
+                                          .Format("n2")
+                                          .Culture("tr-TR")
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div id="ofListe" style="font-size:8pt;" class="merchant-info">
+                            @Html.Partial("partial/_oDetayList", new sFilter { Key = @Model.No.ToString() })
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type='submit' class='btn btn-sm btn-success pull-right'>
+                            <i class='glyphicon glyphicon-floppy-saved'>Kaydet</i>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function ueSonuc(result) {
+            if (result.Sonuc == true) {
+                fnList();
+                $('#wGenel').data('kendoWindow').close();             
+            }
+            else {
+                msgAlert('Hata Mesajı', result.Cevap)
+            }
+        }
+        function ueHata() {
+            msgAlert('Hata Mesajı', 'İşleminiz Esnasında Bir Sorun Oluşmuştur');
+        }
+        function fnodList() {
+            $("#ofListe").html("");
+            $("#ofListe").load("/Odeme/GenelPartial/" +@Model.No+ "?_oDetayList");
+        }
+    </script>
+
+}

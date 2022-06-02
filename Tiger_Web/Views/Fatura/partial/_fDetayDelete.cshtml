@@ -1,0 +1,41 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Models
+@using Tiger_Web.Functions
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var fNo = dm.FaturaDetay.AsEnumerable().Where(s => s.No == Model.Key.ToInt32()).Select(s => s.FaturaNo).FirstOrDefault().ToInt32();
+
+}
+@using (Ajax.BeginForm("fDetayDelete", "Fatura", new AjaxOptions
+{
+    HttpMethod = "post",
+    OnSuccess = "udSonuc",
+    OnFailure = "udHata()"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("No", Model.No)
+    <div class="container">
+        <p><b>Silme İşleminden Emin Misiniz?</b></p>
+        <br /><br />
+        <div class="pull-right">
+            <button type="submit" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-trash"></i>Evet</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function udSonuc(result) {
+            if (result.Sonuc == true) {
+                $('#wfChild').data('kendoWindow').close();
+                fnfDetayList(@fNo);
+            }
+            else {
+                msgAlert('Hata Mesajı', result.Cevap);
+            }
+        }
+        function udHata() {
+            msgAlert('Hata Mesajı', 'İşleminiz Esnasında Bir Sorun Oluşmuştur');
+        }
+
+    </script>
+}

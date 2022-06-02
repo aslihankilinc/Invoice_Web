@@ -1,0 +1,51 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Functions
+@using Tiger_Web.Models
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var fatList = dm.Fatura
+       .Where(f => f.Cari.Unvan.Contains(Model.Key))
+       .AsEnumerable()
+       .Select(f => new
+       {
+           f.No,
+           f.FisNumarasi,
+           FaturaTarihi = f.FaturaTarihi.ToShortDate(),
+           CariAdi = f.Cari.Kod + " " + f.Cari.Unvan,
+           NetTutar = String.Format("{0:n2}", f.NetTutar),
+           ToplamKdv = String.Format("{0:n2}", f.ToplamKdvTutari),
+           ToplamTutar = String.Format("{0:n2}", f.ToplamTutar),
+           Siparisler = String.Join(",", (dm.Siparis_Fatura.AsEnumerable().Where(s => s.FaturaNo == f.No).Select(
+                        s => s.Siparis.Kod))).ToString(),
+       }).ToList();
+}   @*#if(f.Siparisler.Siparis == null) {##:'-'##} else {##:f.Siparisler.Siparis##}#*@
+
+@(Html.Kendo().Grid(fatList)
+                    .Name("gdList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(f => f.No).Visible(false);
+                        cl.Bound(f => f.FisNumarasi).Title("Fiş Numarası").Filterable(true);
+                        cl.Bound(f => f.FaturaTarihi).Title("Fatura Tarihi").Filterable(true);
+                        cl.Bound(f => f.CariAdi).Title("Cari Unvanı").Filterable(true);
+                        cl.Bound(f => f.Siparisler).Title("Bağlı Siparişler").Filterable(true);
+                        cl.Bound(f => f.NetTutar).Title("Net Tutar").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(f => f.ToplamKdv).Title("Toplam Kdv").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(f => f.ToplamTutar).Title("Toplam Tutar").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Template(f => f.No).Width(160).ClientTemplate(@"
+                          <div class='btn-group btn-group-xs'>
+                              <button type='button' onclick='fnfSiparisList(#:No#)' class='btn btn-default'>
+                                  <i class='glyphicon glyphicon-transfer'>Sipariş&nbsp;Bağla</i>
+                              </button>
+                              <button type='button' onclick='fnEdit(#:No#)' class='btn btn-primary'>
+                                  <i class='glyphicon glyphicon-pencil'>Düzenle</i>
+                              </button>
+                              <button type='button' onclick='fnDelete(#:No#)' class='btn btn-danger'>
+                                  <i class='glyphicon glyphicon-trash'>Sil</i>
+                              </button>
+                          </div>
+                      ");
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+
+)

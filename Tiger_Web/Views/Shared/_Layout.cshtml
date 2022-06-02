@@ -1,0 +1,80 @@
+﻿@using Kendo.Mvc.UI
+@{ 
+    if(Sessions.Bilgi==null)
+    {
+        Sessions.Bilgi = new MySession();
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger</title>    
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/Site.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/modernizr-2.6.2.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script> 
+    <script src="/Scripts/jquery.validate.js"></script>
+
+    <link href="/Content/kendo/2017.3.1018/kendo.common.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2017.3.1018/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2017.3.1018/kendo.silver.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2017.3.1018/kendo.dataviz.silver.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="/Scripts/kendo/2017.3.1018/jquery.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.all.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.aspnetmvc.min.js"></script>
+    <script src="/Scripts/kendo.modernizr.custom.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.culture.tr-TR.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/kendo.messages.tr-TR.min.js"></script>
+    <script src="/Scripts/kendo/2017.3.1018/jszip.min.js"></script>
+    <script src="~/PageJs/_LayoutJs.js"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Tiger", "Fatura", "Fatura", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Fatura İşlemleri", "Fatura", "Fatura")</li>
+                    <li>@Html.ActionLink("Siparis İşlemleri", "Siparis", "Siparis")</li>
+                    <li>@Html.ActionLink("Ödeme İşlemleri", "Odeme", "Odeme")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+    <div id="msg" hidden>
+        @(Html.Kendo().Dialog()
+        .Name("dialog")
+        .Title("Sayfa Uyarısı")
+        .Content("<p>Bilgilerinizi Kontrol Ediniz<p>")
+        .Width(400)
+        .Height(150)
+        .Modal(true)
+        )
+    </div>
+    <script type="text/javascript">
+        function msgAlert(title, msg) {
+            $('#msg').show();
+            $('#dialog').data("kendoDialog").title(title).content(msg).open();
+        }
+    </script>
+</body>
+</html>
+

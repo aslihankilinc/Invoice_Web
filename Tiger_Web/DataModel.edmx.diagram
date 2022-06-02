@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2a6b464d54c74a59974a2fbb4a2b33b7" Name="Diagram1">
+        <EntityTypeShape EntityType="TigerModel.Birim" Width="1.5" PointX="3.75" PointY="12.375" />
+        <EntityTypeShape EntityType="TigerModel.Cari" Width="1.5" PointX="3.75" PointY="9.125" />
+        <EntityTypeShape EntityType="TigerModel.Fatura" Width="1.5" PointX="6" PointY="4.25" />
+        <EntityTypeShape EntityType="TigerModel.FaturaDetay" Width="1.5" PointX="8.25" PointY="4.75" />
+        <EntityTypeShape EntityType="TigerModel.Kullanici" Width="1.5" PointX="0.75" PointY="4.625" />
+        <EntityTypeShape EntityType="TigerModel.Siparis" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="TigerModel.Siparis_Fatura" Width="1.5" PointX="11.25" PointY="5.125" />
+        <EntityTypeShape EntityType="TigerModel.SiparisDetay" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="TigerModel.Urun" Width="1.5" PointX="6" PointY="12" />
+        <AssociationConnector Association="TigerModel.FK_Urun_Birim" />
+        <AssociationConnector Association="TigerModel.FK_Fatura_Cari" />
+        <AssociationConnector Association="TigerModel.FK_Siparis_Cari" />
+        <AssociationConnector Association="TigerModel.FK_Fatura_Kullanici" />
+        <AssociationConnector Association="TigerModel.FK_FaturaDetay_Fatura" />
+        <AssociationConnector Association="TigerModel.FK_tblSiparis_Fatura_Fatura" />
+        <AssociationConnector Association="TigerModel.FK_FaturaDetay_Kullanici" />
+        <AssociationConnector Association="TigerModel.FK_FaturaDetay_Urun" />
+        <AssociationConnector Association="TigerModel.FK_Siparis_Kullanici" />
+        <AssociationConnector Association="TigerModel.FK_SiparisDetay_Kullanici" />
+        <AssociationConnector Association="TigerModel.FK_Siparis_SiparisDetay" />
+        <AssociationConnector Association="TigerModel.FK_tblSiparis_Fatura_Siparis" />
+        <AssociationConnector Association="TigerModel.FK_SiparisDetay_Urun" />
+        <EntityTypeShape EntityType="TigerModel.Fatura_Odeme" Width="1.5" PointX="11.25" PointY="7.875" />
+        <EntityTypeShape EntityType="TigerModel.Odeme" Width="1.5" PointX="9" PointY="8.625" />
+        <AssociationConnector Association="TigerModel.FK_Odeme_Cari" />
+        <AssociationConnector Association="TigerModel.FK_Fatura_Odeme_Fatura" />
+        <AssociationConnector Association="TigerModel.FK_Fatura_Odeme_Odeme" />
+        <AssociationConnector Association="TigerModel.FK_Odeme_Kullanici" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

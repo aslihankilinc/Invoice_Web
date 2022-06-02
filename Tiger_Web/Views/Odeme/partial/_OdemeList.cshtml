@@ -1,0 +1,42 @@
+﻿@using Kendo.Mvc.UI
+@using Tiger_Web.Functions
+@using Tiger_Web.Models
+@model sFilter
+@{
+    DataModel dm = new DataModel();
+    var fatList = dm.Odeme
+       .Where(o => o.Cari.Unvan.Contains(Model.Key))
+       .AsEnumerable()
+       .Select(o => new
+       {
+           o.No,
+           CariAdi = o.Cari.Kod + "-" + o.Cari.Unvan,
+           OdemeTarihi = o.Tarih.ToShortDate(),
+           Tutar = String.Format("{0:n2}", o.Tutar),
+           FisNumara = String.Join(",", (dm.Fatura_Odeme.AsEnumerable().Where(s => s.OdemeNo==o.No).Select(
+                        s => s.Fatura.FisNumarasi))).ToString(),
+       }).ToList();
+}
+
+@(Html.Kendo().Grid(fatList)
+                    .Name("gdList")
+                    .Columns(cl =>
+                    {
+                        cl.Bound(o => o.No).Visible(false);
+                        cl.Bound(o => o.CariAdi).Title("Cari").Filterable(true);
+                        cl.Bound(o => o.OdemeTarihi).Title("Ödeme Tarihi").Filterable(true);
+                        cl.Bound(o => o.Tutar).Title("Ödeme Tutarı").Filterable(false).HtmlAttributes(new { style = "text-align:right;" });
+                        cl.Bound(o => o.FisNumara).Title("Bağlı Fatura Fişleri").Filterable(true);
+                        cl.Template(o => o.No).Width(160).ClientTemplate(@"
+                          <div class='btn-group btn-group-xs'>
+                              <button type='button' onclick='fnEdit(#:No#)' class='btn btn-primary'>
+                                  <i class='glyphicon glyphicon-pencil'>Düzenle</i>
+                              </button>
+                              <button type='button' onclick='fnDelete(#:No#)' class='btn btn-danger'>
+                                  <i class='glyphicon glyphicon-trash'>Sil</i>
+                              </button>
+                          </div>
+                      ");
+                    }).Filterable().Pageable().Sortable().DataSource(e => e.Ajax().ServerOperation(false).PageSize(30))
+
+)
